@@ -32,7 +32,6 @@ const usuarios = [
 // Para filtrar usuarios por sexo
 // Descomentar para usar esta funcionalidad y comentar la ruta raíz si hay conflicto
 
-/*
 app.get("/", (req, res) => {
 	let sexoIngresado = req.query.sexo; // Obtener el valor del parámetro "sexo" en la URL
 
@@ -47,7 +46,6 @@ app.get("/", (req, res) => {
 	// Devolvemos solo los usuarios filtrados
 	res.json({ usuarios: usuariosFiltrados });
 });
-*/
 
 // Ruta con PARAMS DINÁMICOS en la URL (tipo /5, /10, etc)
 // Para buscar usuario por ID
@@ -69,6 +67,30 @@ app.get("/:idUsr", (req, res) => {
 // Útil para cuando no se usa query params para filtrar
 app.get("/", (req, res) => {
 	res.json({ usuarios });
+});
+
+app.post("/usuarios", (req, res) => {
+	const { nombre, sexo } = req.body;
+
+	if (!nombre || !sexo || (sexo !== "M" && sexo !== "F")) {
+		return res.status(400).send({
+			status: "error",
+			error: "nombre o sexo incompleto o inválido",
+		});
+	}
+
+	// Generar nuevo id (suponiendo que siempre se suman secuencialmente)
+	const nuevoId = usuarios.length > 0 ? usuarios[usuarios.length - 1].id + 1 : 1;
+
+	const nuevoUsuario = {
+		id: nuevoId,
+		nombre,
+		sexo,
+	};
+
+	usuarios.push(nuevoUsuario);
+
+	res.status(201).send({ status: "success", user: nuevoUsuario });
 });
 
 // --- INICIAR SERVIDOR ---
