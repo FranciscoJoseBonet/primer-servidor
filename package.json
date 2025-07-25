@@ -5,10 +5,10 @@
 	"license": "ISC",
 	"author": "",
 	"type": "module",
-	"main": "index.js",
+	"main": "app.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"dev": "nodemon firstServer/index.js"
+		"dev": "nodemon servidor-express/src/app.js"
 	},
 	"dependencies": {
 		"express": "^5.1.0",
